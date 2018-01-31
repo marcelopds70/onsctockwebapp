@@ -1,0 +1,123 @@
+entity User {
+	name String,
+	login String,
+	phone String
+	email String,
+	password String,
+    code String
+}
+//relationship user 
+relationship OneToOne {	
+	User{language} to Language,
+    User{shoppingCart} to ShoppingCart    
+}
+relationship OneToMany {
+	User{address} to Address,
+	User{store} to Bussiness
+}
+
+entity Especification {
+	name String,
+    description String,
+    especification EspecificationType
+}
+entity EspecificationType {
+    name String
+}
+
+relationship ManyToMany {
+	Product{especification} to Especification
+}
+relationship OneToMany {
+	EspecificationType{type} to Especification
+}
+
+
+
+entity Address{
+ streetAddress String,
+ postalCode String,
+ city String,
+ stateProvince String,
+ maps String,
+ lat Float,
+ lon Float
+}
+
+entity Bussiness {
+ name String,
+ status String,
+ code String
+}
+relationship OneToOne {
+ Store{address} to Address
+ }
+ relationship OneToMany {
+ Store{products} to Product
+ }
+ 
+entity Store {
+ name String
+}
+
+relationship OneToMany {
+ Bussiness{store} to Store
+ }
+
+entity Product{
+name String,
+description String
+}
+entity Brand{
+name String
+}
+
+relationship OneToMany{
+ Brand{products} to Product
+}
+
+entity Stock{
+offer Float,
+descont Float,
+quantity Int,
+price Float
+}
+
+relationship OneToMany{
+ Product{products} to Stock
+}
+relationship OneToMany{
+ Product{pictures} to Picture
+} 
+
+entity Picture{
+name String,
+path File
+}
+
+entity ShoppingCart{
+ total Float,
+ quantity Int
+}
+relationship OneToOne {
+ ShoppingCart{user} to User
+ }
+
+relationship OneToMany {
+ ShoppingCart{products} to Product
+ }
+ 
+enum Language {
+    ENGLISH, SPANISH, PORTUGUESE
+}
+
+// Set pagination options
+//paginate JobHistory, Employee with infinite-scroll
+//paginate Job with pagination
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl except Stock, EspecificationType, Especification
+// Set an angular suffix
+angularSuffix * with onStock
